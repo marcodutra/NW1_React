@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import{ FiArrowLeft } from 'react-icons/fi';
+import {Map, TileLayer, Marker} from 'react-leaflet';
+import api from "../../services/api";
 
 import './styles.css';
 
-import logo from '../../assets/logo.svg'
+import logo from '../../assets/logo.svg';
 
 const CreatPoint = () => {
+    const [items, setItems] = useState([]);
+    
+    useEffect(() =>{
+        api.get('items').then(response => {
+            setItems(response.data);
+        });
+        console.count('dentro ')
+    }, [])
+    console.count('fora ')
     return (
 
         <div id="page-create-point">
@@ -62,6 +73,11 @@ const CreatPoint = () => {
                                 <span>Selecione o endereço no mapa</span>
                             </legend>
 
+                            <Map center={[-25.4694288, -49.2953661]} zoom={17}>
+                                <TileLayer attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                                <Marker position={[-25.4694288, -49.2953661]}/>
+                            </Map>
+
                             <div className="field-group">
                                 <div className="field">
                                         <label htmlFor="uf">Estado (UF)</label>
@@ -83,7 +99,19 @@ const CreatPoint = () => {
                                 <h2>Items de coleta</h2>
                                 <span>Selecione um ou mais itens abaixo</span>
                             </legend>
+
+                            <ul className="items-grid">
+                                {items.map(item =>(
+                                     <li className="selected">
+                                     <img src="http://localhost:3333/uploads/oleo.svg" alt="teste" />
+                                     <span>óleo de cozinha</span>
+                                 </li>
+                                ))}
+                            </ul>
                         </fieldset>
+                         <button type="submit">
+                           Cadastrar ponto de coleta
+                         </button>
                 </form>
         </div>
 
