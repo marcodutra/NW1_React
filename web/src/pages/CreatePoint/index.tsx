@@ -123,7 +123,7 @@ const CreatPoint = () => {
         const items = selectedItems;
 
         const data = {
-            name,
+            name,   
             email,
             whatsapp,
             uf,
@@ -133,7 +133,7 @@ const CreatPoint = () => {
             items
         };
         await api.post('points', data);
-
+ 
         alert('Ponto de coleta criado');
         
         history.push('/');
